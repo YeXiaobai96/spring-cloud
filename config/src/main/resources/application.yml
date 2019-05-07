@@ -1,0 +1,21 @@
+
+server:
+  port: 8031
+
+spring:
+  application:
+    name: config-center
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/YeXiaobai96/SpringcloudConfig
+          search-paths: respo
+          username: 861489509@qq.com
+          password: wangmeng123
+          default-label: master
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8011/eureka/

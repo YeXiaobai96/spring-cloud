@@ -1,0 +1,25 @@
+server:
+  port: 8022
+
+spring:
+  application:
+    name: redis-show-service
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-center
+      # 配置文件的后缀，例：a-dev.yml
+      profile: test
+      # git的分支
+      label: master
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8011/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
