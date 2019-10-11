@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mts.springboot.dao.mapper.TbCompanyPageMapper" >
+  <resultMap id="BaseResultMap" type="com.mts.springboot.model.entity.TbCompanyPage" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="page_id" property="pageId" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <insert id="saveCompanyPage" parameterType="com.mts.springboot.model.entity.TbCompanyPage" >
+    insert into tb_company_page
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pageId != null" >
+        page_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pageId != null" >
+        #{pageId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="deleteByPageId" parameterType="java.lang.String" >
+    delete from tb_company_page
+    where page_id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+</mapper>

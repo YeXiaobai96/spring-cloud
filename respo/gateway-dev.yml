@@ -1,0 +1,58 @@
+server:
+  port: 80
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: neo_route
+          uri: http://192.168.3.153:8080/**
+          predicates:
+            - Path=/**
+
+        - id: data-service-route
+          uri: lb://data-service
+          predicates:
+            - Path=/data/**
+          filters:
+            - StripPrefix=1
+        - id: api-service-route
+          uri: lb://service-feign
+          predicates:
+            - Path=/webapi/**
+          filters:
+            - StripPrefix=1
+eureka:
+  instance:
+    #preferIpAddress: true
+    instance-id: ${spring.cloud.client.ipAddress:test.getway.biz}:${server.port}
+    hostname: test.getway.biz
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
+  client:
+    service-url:
+      defaultZone: http://sr.iaas.biz:10000/eureka/
+    healthcheck:
+      enabled: true
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true #关闭服务支持，只能POST请求调用。
+  endpoints:
+    web:
+      exposure:
+        include: "*" #暴露所有端点 默认是info,health
+info:
+  app:
+    version: 1.1
+    name: prod   #/actuator/info 自定义的info端点 否则是空的
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+

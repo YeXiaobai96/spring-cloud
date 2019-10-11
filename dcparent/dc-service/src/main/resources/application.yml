@@ -1,0 +1,75 @@
+server:
+  port: 9292
+spring:
+  application:
+    name: device-service
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      one:
+        url: jdbc:postgresql://192.168.3.178:5432/postgres
+        username: postgres
+        password: 123456
+        driver-class-name: org.postgresql.Driver
+        minIdle: 10
+        maxActive: 100
+        initialSize: 10
+        timeBetweenEvictionRunsMillis: 3000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1
+        validationQueryTimeout: 10000
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        maxWait: 60000
+        # 打开PSCache，并且指定每个连接上PSCache的大小
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        filters: stat
+        proxyFilters:
+          - wall-filter
+      two:
+        url: jdbc:postgresql://192.168.3.232:5432/thingsboard
+        username: postgres
+        password: 123456
+        driver-class-name: org.postgresql.Driver
+        minIdle: 10
+        maxActive: 100
+        initialSize: 10
+        timeBetweenEvictionRunsMillis: 3000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1
+        validationQueryTimeout: 10000
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        maxWait: 60000
+        # 打开PSCache，并且指定每个连接上PSCache的大小
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        filters: stat
+        proxyFilters:
+          - wall-filter
+
+  #jta相关参数配置
+  jta:
+    log-dir: tx-logs
+    transaction-manager-id: txManager
+## Mybatis 配置
+mybatis:
+  typeAliasesPackage: com.thingboard.device.model.entity
+  mapperLocations: classpath:mapper/*.xml
+
+logging:
+  level:
+    root: INFO
+    com.thingboard.device.dao.mapper: debug
+    org:
+      springframework:
+        web: DEBUG
+
+swagger:
+  enable: true

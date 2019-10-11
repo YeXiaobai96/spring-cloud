@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thingboard.device.dao.mapper.TestMapper">
+	<resultMap id="BaseResultMap" type="com.thingboard.device.model.entity.Test">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+
+	</resultMap>
+
+	<select id="list" resultType="com.thingboard.device.model.entity.Test">
+		select id,age from test
+	</select>
+
+	<insert id="add" parameterType="com.thingboard.device.model.entity.Test">
+		insert into test values(#{id},#{age})
+	</insert>
+
+	<select id="list1" resultType="com.thingboard.device.model.entity.Test">
+		select id,age from test
+	</select>
+
+	<insert id="add1" parameterType="com.thingboard.device.model.entity.Test">
+		insert into test values(#{id},#{age})
+	</insert>
+</mapper>

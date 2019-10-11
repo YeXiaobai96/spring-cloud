@@ -1,14 +1,20 @@
-# 微服务demo模板
+# 微服务开发模块
 
-## 环境配置
+## [LimitsManagerIdea](<http://192.168.3.200/kaifa/spring-cloud/tree/master/LimitsManagerIdea>)
 
-jdk：1.8.0
-spring-boot-starter-parent：2.1.2.RELEASE
-spring-cloud-dependencies：Greenwich.RC2
+菜单权限管理和第三方登录模块
 
-## 模块组成
+## [parent](http://192.168.3.200/kaifa/spring-cloud/tree/master/parent)
 
-1. eureka: `eureka`注册中心
-2. DesDirModService:服务提供者（注册方）含有多数据源配置
-3. config：简单配置中心
-4. geteway:简单的网关配置
+微服务基础服务模块（eureka、config、gateway）
+
+## [respo](http://192.168.3.200/kaifa/spring-cloud/tree/master/respo)
+
+配置文件存放仓库
+
+## [spring boot](<http://192.168.3.200/kaifa/spring-cloud/tree/master/spring-boot>)
+
+宣传页面模块（比较完善的微服务实现模块）
+
+## [dcparent](http://192.168.3.200/kaifa/spring-cloud/tree/master/dcparent)
+设备管理模块（不是最新代码）

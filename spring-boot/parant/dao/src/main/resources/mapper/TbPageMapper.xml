@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mts.springboot.dao.mapper.TbPageMapper" >
+  <resultMap id="BaseResultMap" type="com.mts.springboot.model.entity.TbPage" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+      <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, name, comment, url
+  </sql>
+
+  <select id="listPage" resultMap="BaseResultMap">
+      SELECT
+      tb_page.id,
+      tb_page."name",
+      tb_page."comment",
+      tb_page.url,
+      tb_company_page.company_id
+      FROM
+      tb_page left join tb_company_page on tb_page.id=tb_company_page.page_id
+      where
+      tb_company_page.company_id IN
+      <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+          #{id}
+      </foreach>
+  </select>
+
+  <delete id="delById" parameterType="java.lang.String" >
+    delete from tb_page
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="savePage" parameterType="com.mts.springboot.model.entity.TbPage" >
+    insert into tb_page
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updatePage" parameterType="com.mts.springboot.model.entity.TbPage" >
+    update tb_page
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

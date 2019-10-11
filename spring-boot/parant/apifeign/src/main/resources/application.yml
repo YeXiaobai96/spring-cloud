@@ -1,0 +1,39 @@
+server:
+  port: 9192
+spring:
+  application:
+    name: api-feign
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        web: DEBUG
+swagger:
+  enable: true
+
+eureka:
+  instance:
+    # : true
+    instance-id: ${spring.cloud.client.ipAddress:wm.dvpt.mts}:${server.port}
+    hostname: wm.dvpt.mts
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
+  client:
+    service-url:
+      defaultZone: http://sr.iaas.biz:10000/eureka/
+    healthcheck:
+      enabled: true
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true #关闭服务支持，只能POST请求调用。
+  endpoints:
+    web:
+      exposure:
+        include: "*" #暴露所有端点 默认是info,health
+info:
+  app:
+    version: 1.1.2
+    name: prod   #/actuator/info 自定义的info端点 否则是空的

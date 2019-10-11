@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thingboard.device.dao.mapper.TsKvMapper">
+
+
+	<select id="listTsKv" resultType="map" parameterType="map">
+		SELECT
+			entity_id,
+			KEY,
+			ts,
+			str_v,
+			bool_v,
+			CASE
+			WHEN long_v IS NOT NULL THEN
+			long_v ELSE dbl_v
+		END AS
+		VALUE
+		FROM
+		ts_kv
+		WHERE
+		entity_id = #{id}
+	</select>
+
+
+</mapper>

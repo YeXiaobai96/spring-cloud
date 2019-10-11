@@ -1,0 +1,133 @@
+server:
+  port: 8181
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: neo_route13
+          uri: http://cy.dvpt.mts:8080/13.js
+          predicates:
+            - Path=/13.js
+        - id: neo_routeimg
+          uri: http://cy.dvpt.mts:8080/img/**
+          predicates:
+            - Path=/img/**
+        - id: neo_routess
+          uri: http://cy.dvpt.mts:8080/static/**
+          predicates:
+            - Path=/static/**
+        - id: neo_route12
+          uri: http://cy.dvpt.mts:8080/12.js
+          predicates:
+            - Path=/12.js
+        - id: neo_route11
+          uri: http://cy.dvpt.mts:8080/11.js
+          predicates:
+            - Path=/11.js
+        - id: neo_route1
+          uri: http://cy.dvpt.mts:8080/1.js
+          predicates:
+            - Path=/1.js
+        - id: neo_route10
+          uri: http://cy.dvpt.mts:8080/10.js
+          predicates:
+            - Path=/10.js
+        - id: neo_route9
+          uri: http://cy.dvpt.mts:8080/9.js
+          predicates:
+            - Path=/9.js
+        - id: neo_route8
+          uri: http://cy.dvpt.mts:8080/8.js
+          predicates:
+            - Path=/8.js
+        - id: neo_route7
+          uri: http://cy.dvpt.mts:8080/7.js
+          predicates:
+            - Path=/7.js
+        - id: neo_route6
+          uri: http://cy.dvpt.mts:8080/6.js
+          predicates:
+            - Path=/6.js
+        - id: neo_route5
+          uri: http://cy.dvpt.mts:8080/5.js
+          predicates:
+            - Path=/5.js
+        - id: neo_route4
+          uri: http://cy.dvpt.mts:8080/4.js
+          predicates:
+            - Path=/4.js
+        - id: neo_route3
+          uri: http://cy.dvpt.mts:8080/3.js
+          predicates:
+            - Path=/3.js
+        - id: neo_route2
+          uri: http://cy.dvpt.mts:8080/2.js
+          predicates:
+            - Path=/2.js
+        - id: neo_route0
+          uri: http://cy.dvpt.mts:8080/0.js
+          predicates:
+            - Path=/0.js
+        - id: neo_route
+          uri: http://cy.dvpt.mts:8080/tologin
+          predicates:
+            - Path=/tologin
+        - id: neo_routeapp
+          uri: http://cy.dvpt.mts:8080/app.js
+          predicates:
+            - Path=/app.js
+
+        - id: limit-service-route
+          uri: lb://limit-service
+          predicates:
+            - Path=/limit/**
+          filters:
+            - StripPrefix=1
+        - id: data-ldap-service-route
+          uri: lb://data-ldap
+          predicates:
+            - Path=/ldap/**
+          filters:
+            - StripPrefix=1
+        - id: device-service-route
+          uri: lb://device-service
+          predicates:
+            - Path=/device/**
+          filters:
+            - StripPrefix=1
+        - id: data-ldap-service-web-route
+          uri: lb://web-data-ldap
+          predicates:
+            - Path=/webldap/**
+          filters:
+            - StripPrefix=1
+eureka:
+  instance:
+    #preferIpAddress: true
+    instance-id: ${spring.cloud.client.ipAddress:test.getway.biz}:${server.port}
+    hostname: test.getway.biz
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
+  client:
+    service-url:
+      defaultZone: http://sr.iaas.biz:10000/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" #暴露所有端点 默认是info,health
+info:
+  app:
+    version: 1.1
+    name: prod   #/actuator/info 自定义的info端点 否则是空的
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+

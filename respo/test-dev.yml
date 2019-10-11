@@ -1,0 +1,83 @@
+server:
+  port: 9196
+spring:
+  application:
+    name: limit-service
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.3.232:5432/limit
+    username: postgres
+    password: 123456
+      #redis配置
+  redis: 
+    host: 192.168.3.178
+    port: 6379
+    timeout: 20000
+    database: 0
+    password: 123456
+    jedis: 
+      pool:
+       max-active: 8
+       min-idle: 0
+       max-idle: 8
+       max-wait: -1
+## Mybatis 配置
+mybatis:
+  typeAliasesPackage: com.yofc.trace.entity
+  mapperLocations: classpath:mapper/*.xml
+
+logging:
+  level:
+    root: INFO
+    com.yofc.trace.mapper: debug
+    org:
+      springframework:
+        web: DEBUG
+#用户初始密码
+SysUser:
+  password: 123456
+swagger:
+  enable: true
+
+eureka:
+  instance:
+    # : true
+    instance-id: ${spring.cloud.client.ipAddress:192.168.3.215}:${server.port}
+    hostname: 192.168.3.215
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
+  client:
+    service-url:
+      defaultZone: http://sr.iaas.biz:10000/eureka/
+    healthcheck:
+      enabled: true
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true #关闭服务支持，只能POST请求调用。
+  endpoints:
+    web:
+      exposure:
+        include: "*" #暴露所有端点 默认是info,health
+info:
+  app:
+    version: 1.0
+    name: prod   #/actuator/info 自定义的info端点 否则是空的
+
+oauth2:
+  server:
+    url: http://config.iaas.biz
+      authorize:
+        path: /oauth/authorize
+      token:
+        path: /oauth/token
+  client:
+    id: f861fb0358f7945fea2ea2ee8aedfde309e5069e70664dfa795d513ed7e9f798
+    secret: e752642d24cf1759f4937eeb5c04194131395d3b4b3f8f8d7f50c5ee5ac873a1
+    callback:
+      url: http://test.getway.biz:8181/tologin

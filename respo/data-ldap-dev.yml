@@ -1,0 +1,20 @@
+spring:
+  ldap:
+    #embedded:
+      #ldif: ldap-server.ldif
+      #base-dn: dc=com
+    #  ldif: classpath:ldap-server.ldif
+    #  base-dn: dc=learning,dc=inverseli,dc=com
+      
+  #    
+  #ldap:
+    base: dc=test,dc=com
+    password: sgds
+    urls: ldap://192.168.3.117:389/
+    username: cn=admin,dc=test,dc=com
+  redis:
+    database: 0
+    host: 192.168.3.178
+    password: '123456'
+    port: 6379
+    timeout: 20000 

@@ -1,0 +1,26 @@
+server:
+  port: 9091
+
+spring:
+  application:
+    #对应yml文件application名，例： data-service-dev.yml
+    name: gateway-service
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-center
+      # 配置文件的后缀，例：a-dev.yml
+      profile: prod
+      # git的分支
+      label: master
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://sr.iaas.biz:10000/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

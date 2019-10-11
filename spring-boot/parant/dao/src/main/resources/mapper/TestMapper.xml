@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mts.springboot.dao.mapper.TestMapper">
+	<resultMap id="BaseResultMap" type="com.mts.springboot.model.entity.Test">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+
+	</resultMap>
+
+	<select id="list" resultType="com.mts.springboot.model.entity.Test">
+		select id,age from test3
+	</select>
+
+	<insert id="add" parameterType="com.mts.springboot.model.entity.Test">
+		insert into test3 values(#{id},#{age})
+	</insert>
+
+
+</mapper>

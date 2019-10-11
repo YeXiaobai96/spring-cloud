@@ -1,0 +1,41 @@
+
+server:
+  port: 8033
+
+spring:
+  application:
+    name: config-center
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://192.168.3.200/wm/spring-cloud.git
+          search-paths: respo
+          username: wm
+          password: qq123456
+          default-label: master
+eureka:
+  instance:
+    #preferIpAddress: true
+    instance-id: ${spring.cloud.client.ipAddress:test.config.biz}:${server.port}
+    hostname: test.config.biz
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
+  client:
+    service-url:
+      defaultZone: http://sr.iaas.biz:10000/eureka/
+    healthcheck:
+      enabled: true
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true #关闭服务支持，只能POST请求调用。
+  endpoints:
+    web:
+      exposure:
+        include: "*" #暴露所有端点 默认是info,health
+info:
+  app:
+    version: 1.1
+    name: prod   #/actuator/info 自定义的info端点 否则是空的

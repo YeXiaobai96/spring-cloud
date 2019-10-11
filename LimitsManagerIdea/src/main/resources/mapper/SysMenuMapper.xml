@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yofc.trace.mapper.SysMenuMapper">
+	<resultMap id="BaseResultMap" type="com.yofc.trace.entity.SysMenu">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="node" property="node" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="pid" property="pid" jdbcType="VARCHAR" />
+		<result column="programUrl" property="programUrl" jdbcType="VARCHAR" />
+		<result column="createdByID" property="createdById" jdbcType="VARCHAR" />
+		<result column="createdOn" property="createdOn" jdbcType="TIMESTAMP" />
+		<result column="modifiedByID" property="modifiedById" jdbcType="VARCHAR" />
+		<result column="modifiedOn" property="modifiedOn" jdbcType="TIMESTAMP" />
+		<result column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="delFlag" property="delFlag" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="BaseResultMap1" type="com.yofc.trace.entity.SysMenu">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="programUrl" property="programUrl" jdbcType="VARCHAR" />
+		<result column="createdOn" property="createdOn" jdbcType="TIMESTAMP" />
+		<result column="createdUser" property="createdUser" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="findMenuByPidAndUid" resultMap="BaseResultMap">
+		select * from
+		sys_menu m
+		where m.pid=#{pid} and m.id in
+		(select DISTINCT "menuId" from
+		sys_permiy p where p."delFlag"=0 and p."roleId" in
+		(select "roleId" from
+		sys_user_role ur where ur."userId"=#{uid} and
+		ur."delFlag"=0))
+		and
+		m."delFlag"=0 ORDER BY m.seq
+	</select>
+
+	<select id="findMenuByUid" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		sys_menu m
+		where m.id in
+		(select DISTINCT "menuId" from
+		sys_permiy p
+		where p."delFlag"=0 and p."roleId" in
+		(select "roleId" from
+		sys_user_role ur
+		where ur."userId"=#{uid} and
+		ur."delFlag"=0))
+		and
+		m."delFlag"=0 ORDER BY m.seq
+	</select>
+
+	<sql id="Base_Column_List">
+		id, icon, code, name, node, type, pid, "programUrl",
+		"createdByID",
+		"createdOn", "modifiedByID",
+		"modifiedOn", seq, memo, status,
+		"delFlag"
+	</sql>
+
+	<insert id="insertMenu" parameterType="com.yofc.trace.entity.SysMenu">
+		insert into sys_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="icon != null">
+				icon,
+			</if>
+			<if test="code != null">
+				code,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="node != null">
+				node,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="pid != null">
+				pid,
+			</if>
+			<if test="programUrl != null">
+				"programUrl",
+			</if>
+			<if test="createdById != null">
+				"createdByID",
+			</if>
+			<if test="createdOn != null">
+				"createdOn",
+			</if>
+			<if test="modifiedById != null">
+				"modifiedByID",
+			</if>
+			<if test="modifiedOn != null">
+				"modifiedOn",
+			</if>
+			<if test="seq != null">
+				seq,
+			</if>
+			<if test="memo != null">
+				memo,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="delFlag != null">
+				"delFlag",
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="icon != null">
+				#{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="node != null">
+				#{node,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="pid != null">
+				#{pid,jdbcType=VARCHAR},
+			</if>
+			<if test="programUrl != null">
+				#{programUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="createdById != null">
+				#{createdById,jdbcType=VARCHAR},
+			</if>
+			<if test="createdOn != null">
+				#{createdOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifiedById != null">
+				#{modifiedById,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedOn != null">
+				#{modifiedOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seq != null">
+				#{seq,jdbcType=INTEGER},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateMenu" parameterType="com.yofc.trace.entity.SysMenu">
+		update sys_menu
+		<set>
+			<if test="icon != null">
+				icon = #{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="node != null">
+				node = #{node,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="pid != null">
+				pid = #{pid,jdbcType=VARCHAR},
+			</if>
+			<if test="programUrl != null">
+				"programUrl" = #{programUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="createdById != null">
+				"createdByID" = #{createdById,jdbcType=VARCHAR},
+			</if>
+			<if test="createdOn != null">
+				"createdOn" = #{createdOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifiedById != null">
+				"modifiedByID" = #{modifiedById,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedOn != null">
+				"modifiedOn" = #{modifiedOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seq != null">
+				seq = #{seq,jdbcType=INTEGER},
+			</if>
+			<if test="memo != null">
+				memo = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="delFlag != null">
+				"delFlag" = #{delFlag,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_menu
+		where id = #{id,jdbcType=VARCHAR} and "delFlag"=0
+	</select>
+
+	<select id="selectByCode" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_menu
+		where code = #{code,jdbcType=VARCHAR} and "delFlag"=0
+	</select>
+
+	<select id="selectMenuByPid" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_menu
+		where pid = #{pid,jdbcType=VARCHAR} and "delFlag"=0
+	</select>
+
+	<select id="selectByPid" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		select
+		count(1)
+		from sys_menu
+		where pid =
+		#{pid,jdbcType=VARCHAR} and "delFlag"=0
+	</select>
+
+	<select id="selectMenuPage" resultMap="BaseResultMap1"
+		parameterType="java.util.Map">
+		select id,icon,name,type,seq,code,"createdOn","programUrl",(select name from
+		sys_user u
+		where m."createdByID"=u.id) as "createdUser" from sys_menu m
+		where
+		m."delFlag"=0
+		<include refid="findsql" />
+		ORDER BY "createdOn" DESC LIMIT #{size} OFFSET #{index}
+	</select>
+
+	<select id="selectPageCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		select count(1) from sys_menu m where m."delFlag"=0
+		<include refid="findsql" />
+	</select>
+
+	<sql id="findsql">
+		<if test="name != null and name != '' ">
+			and m.name like CONCAT('%',#{name},'%')
+		</if>
+		<if test="code != null and code != '' ">
+			and m.code like CONCAT('%',#{code},'%')
+		</if>
+		<if test="mid != null and mid != '' ">
+			and (m.id=#{mid} or pid=#{mid})
+		</if>
+	</sql>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select * from
+		sys_menu m where m."delFlag"=0
+	</select>
+</mapper>

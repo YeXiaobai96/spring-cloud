@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yofc.trace.mapper.SysUserRoleMapper">
+	<resultMap id="BaseResultMap" type="com.yofc.trace.entity.SysUserRole">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="userId" property="userId" jdbcType="VARCHAR" />
+		<result column="roleId" property="roleId" jdbcType="VARCHAR" />
+		<result column="createdByID" property="createdById" jdbcType="VARCHAR" />
+		<result column="createdOn" property="createdOn" jdbcType="TIMESTAMP" />
+		<result column="modifiedByID" property="modifiedById" jdbcType="VARCHAR" />
+		<result column="modifiedOn" property="modifiedOn" jdbcType="TIMESTAMP" />
+		<result column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="delFlag" property="delFlag" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, "userId", "roleId", "createdByID", "createdOn", "modifiedByID", "modifiedOn",
+		seq, memo,
+		status, "delFlag"
+	</sql>
+	<delete id="deleteByUserId" parameterType="java.lang.String">
+		delete from sys_user_role
+		where "userId" = #{userId,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByRoleId" parameterType="java.lang.String">
+		delete from sys_user_role
+		where "roleId" = #{roleId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.yofc.trace.entity.SysUserRole">
+		insert into sys_user_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				"userId",
+			</if>
+			<if test="roleId != null">
+				"roleId",
+			</if>
+			<if test="createdById != null">
+				"createdByID",
+			</if>
+			<if test="createdOn != null">
+				"createdOn",
+			</if>
+			<if test="modifiedById != null">
+				"modifiedByID",
+			</if>
+			<if test="modifiedOn != null">
+				"modifiedOn",
+			</if>
+			<if test="seq != null">
+				seq,
+			</if>
+			<if test="memo != null">
+				memo,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="delFlag != null">
+				"delFlag",
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdById != null">
+				#{createdById,jdbcType=VARCHAR},
+			</if>
+			<if test="createdOn != null">
+				#{createdOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifiedById != null">
+				#{modifiedById,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedOn != null">
+				#{modifiedOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seq != null">
+				#{seq,jdbcType=INTEGER},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<select id="listUserRoleById" resultType="map">
+		SELECT
+			sys_user_role.id,
+			sys_role.id as "roleId",
+			sys_role."name",
+			sys_role."code"
+		FROM
+			sys_user_role
+				LEFT JOIN sys_role ON sys_user_role."roleId" = sys_role."id"
+		WHERE
+			"userId" = #{val}
+		ORDER BY
+			sys_role."modifiedOn"
+	</select>
+</mapper>

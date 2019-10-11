@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yofc.trace.mapper.SysRoleMapper">
+	<resultMap id="BaseResultMap" type="com.yofc.trace.entity.SysRole">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="createdByID" property="createdById" jdbcType="VARCHAR" />
+		<result column="createdOn" property="createdOn" jdbcType="TIMESTAMP" />
+		<result column="modifiedByID" property="modifiedById" jdbcType="VARCHAR" />
+		<result column="modifiedOn" property="modifiedOn" jdbcType="TIMESTAMP" />
+		<result column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="delFlag" property="delFlag" jdbcType="INTEGER" />
+		<result column="isRegRole" property="isRegRole" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, code, name, "createdByID", "createdOn", "modifiedByID",
+		"modifiedOn", seq,
+		memo, status,
+		"delFlag","isRegRole"
+	</sql>
+
+	<insert id="insertRole" parameterType="com.yofc.trace.entity.SysRole">
+		insert into sys_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="code != null">
+				code,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="createdById != null">
+				"createdByID",
+			</if>
+			<if test="createdOn != null">
+				"createdOn",
+			</if>
+			<if test="modifiedById != null">
+				"modifiedByID",
+			</if>
+			<if test="modifiedOn != null">
+				"modifiedOn",
+			</if>
+			<if test="seq != null">
+				seq,
+			</if>
+			<if test="memo != null">
+				memo,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="delFlag != null">
+				"delFlag",
+			</if>
+			<if test="isRegRole != null">
+				"isRegRole",
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="createdById != null">
+				#{createdById,jdbcType=VARCHAR},
+			</if>
+			<if test="createdOn != null">
+				#{createdOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifiedById != null">
+				#{modifiedById,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedOn != null">
+				#{modifiedOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seq != null">
+				#{seq,jdbcType=INTEGER},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=INTEGER},
+			</if>
+			<if test="isRegRole != null">
+				#{isRegRole,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateRole" parameterType="com.yofc.trace.entity.SysRole">
+		update sys_role
+		<set>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="createdById != null">
+				"createdByID" = #{createdById,jdbcType=VARCHAR},
+			</if>
+			<if test="createdOn != null">
+				"createdOn" = #{createdOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifiedById != null">
+				"modifiedByID" = #{modifiedById,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedOn != null">
+				"modifiedOn" = #{modifiedOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seq != null">
+				seq = #{seq,jdbcType=INTEGER},
+			</if>
+			<if test="memo != null">
+				memo = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="delFlag != null">
+				"delFlag" = #{delFlag,jdbcType=INTEGER},
+			</if>
+			<if test="isRegRole != null">
+				"isRegRole" = #{isRegRole,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where id = #{id,jdbcType=VARCHAR} and "delFlag"=0
+	</select>
+
+	<select id="findRole" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where "delFlag"=0 order by "createdOn"
+	</select>
+
+	<select id="selectByCode" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where code = #{code,jdbcType=VARCHAR} and "delFlag"=0
+	</select>
+
+	<select id="selectRolePage" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		id,code, name, "createdOn",status,memo,"isRegRole"
+		from sys_role r where
+		r."delFlag"=0
+		<include refid="findsql" />
+		ORDER BY "createdOn" DESC
+		LIMIT #{size}  OFFSET #{index}
+	</select>
+
+	<select id="selectPageCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		select
+		count(1)
+		from sys_role r where r."delFlag"=0
+		<include refid="findsql" />
+	</select>
+
+	<sql id="findsql">
+		<if test="name !=null and name != '' ">
+			and r.name like CONCAT('%',#{name},'%')
+		</if>
+		<if test="bTime !=null and eTime !=null and bTime !='' and eTime !=''">
+			and to_char(r."createdOn", 'YYYY-MM-DD') BETWEEN #{bTime}
+			and #{eTime}
+		</if>
+	</sql>
+
+
+	<select id="selectRoleCount" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		select count(1) from sys_user_role where "roleId"=#{val}
+		and "delFlag"=0
+	</select>
+
+	<select id="listRegRole" resultMap="BaseResultMap">
+		select id,name from sys_role where "isRegRole"=1 and "delFlag"=0
+	</select>
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yofc.trace.mapper.SysPermiyMapper">
+	<resultMap id="BaseResultMap" type="com.yofc.trace.entity.SysPermiy">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="menuId" property="menuId" jdbcType="VARCHAR" />
+		<result column="roleId" property="roleId" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="createdByID" property="createdById" jdbcType="VARCHAR" />
+		<result column="createdOn" property="createdOn" jdbcType="TIMESTAMP" />
+		<result column="modifiedByID" property="modifiedById" jdbcType="VARCHAR" />
+		<result column="modifiedOn" property="modifiedOn" jdbcType="TIMESTAMP" />
+		<result column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="delFlag" property="delFlag" jdbcType="INTEGER" />
+	</resultMap>
+
+	<insert id="insertPermiy" parameterType="com.yofc.trace.entity.SysPermiy">
+		insert into sys_permiy
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="menuId != null">
+				"menuId",
+			</if>
+			<if test="roleId != null">
+				"roleId",
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="createdById != null">
+				"createdByID",
+			</if>
+			<if test="createdOn != null">
+				"createdOn",
+			</if>
+			<if test="modifiedById != null">
+				"modifiedByID",
+			</if>
+			<if test="modifiedOn != null">
+				"modifiedOn",
+			</if>
+			<if test="seq != null">
+				seq,
+			</if>
+			<if test="memo != null">
+				memo,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="delFlag != null">
+				"delFlag",
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="menuId != null">
+				#{menuId,jdbcType=VARCHAR},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="createdById != null">
+				#{createdById,jdbcType=VARCHAR},
+			</if>
+			<if test="createdOn != null">
+				#{createdOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifiedById != null">
+				#{modifiedById,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedOn != null">
+				#{modifiedOn,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seq != null">
+				#{seq,jdbcType=INTEGER},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="selectMenuByRoleId" resultType="java.lang.String"
+		parameterType="java.lang.String">
+		select
+		"menuId"
+		from sys_permiy
+		where "roleId" =
+		#{roleId,jdbcType=VARCHAR} and "delFlag"=0
+	</select>
+	<delete id="delPermiy" parameterType="java.lang.String">
+		delete from sys_permiy
+		where "roleId" =#{roleId}
+	</delete>
+	<delete id="delPermiyByMenuId" parameterType="java.lang.String">
+		delete from sys_permiy
+		where "menuId" =#{menuId}
+	</delete>
+</mapper>
